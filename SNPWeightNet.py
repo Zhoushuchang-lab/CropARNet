@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Wed May  7 12:48:03 2025
+
+@author: admin
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Wed Apr 23 19:06:03 2025
 @author: admin
 """
@@ -10,6 +17,7 @@ import torch.nn as nn
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import argparse
 from torchmetrics import R2Score
 from scipy.stats import pearsonr
 from sklearn.preprocessing import StandardScaler
@@ -17,6 +25,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import RobustScaler
 from torch.cuda.amp import autocast, GradScaler
 from sklearn.preprocessing import MinMaxScaler
+
 # 超参数配置
 config = {
     'batch_size': 64,
@@ -68,7 +77,11 @@ class SimpleSNPModel(nn.Module):
         layers.append(nn.Linear(prev_size, 1))
         return nn.Sequential(*layers)
 
-
+    def forward(self, x):
+        pre_sigmoid_weights = self.attention[:-1](x) 
+        att_weights = self.attention(x) 
+        weighted = x * att_weights+ x  # 残差连接
+        return self.regressor(weighted).squeeze(), pre_sigmoid_weights    
 # ----------------- 早停 ----------------------
 class EarlyStopping:
     def __init__(self, patience=config['patience'], delta=config['delta'], verbose=True):
@@ -93,8 +106,8 @@ class EarlyStopping:
             self.save_checkpoint(val_loss, model, path)
         elif score < self.best_score + self.delta:
             self.counter += 1
-            if self.verbose:
-                print(f'EarlyStopping counter: {self.counter}/{self.patience}')
+           # if self.verbose:
+                #print(f'EarlyStopping counter: {self.counter}/{self.patience}')
             if self.counter >= self.patience:
                 self.early_stop = True
         else:
@@ -129,7 +142,6 @@ def load_data(snp_path, pheno_path, col):
     phenotype_values = phenotype_df.fillna(fill_value).values.astype(np.float32)
 
     # 数据标准化
-
     scaler = MinMaxScaler(feature_range=(0, 1)) 
     snp_scaled = scaler.fit_transform(snp_values)
 
@@ -209,9 +221,12 @@ Best PCC: {early_stopping.best_pcc:.4f}
             train_r2.append(train_r2_value)
             train_pcc.append(train_pcc_value)
             r2_metric.reset()
+        if (epoch+1) % 20 == 0:
+            epoch_message=f'''Epoch {epoch+1:03d} | 
+            Train Loss: {loss.item():.4f} | Train R²: {train_r2[-1]:.4f} |Train PCC: {train_pcc[-1]:.4f}
+            Test Loss: {test_loss.item():.4f}  |Test R²: {test_r2[-1]:.4f}   | Test PCC: {test_pcc[-1]:.4f}'''
+            print(epoch_message)
 
-        if (epoch + 1) % 20 == 0:
-            print(f'Epoch {epoch + 1:03d} | Train Loss: {loss.item():.4f} | Test Loss: {test_loss.item():.4f}')
 
     # 可视化
     def plot_metrics():
@@ -242,18 +257,27 @@ Best PCC: {early_stopping.best_pcc:.4f}
 
     plot_metrics()
 
-if __name__ == "__main__":
+def main():
+    parser = argparse.ArgumentParser(description='SNP Weight Network Training')
+    parser.add_argument('--snp_path', type=str, required=True, help='Path to SNP data file')
+    parser.add_argument('--pheno_path', type=str, required=True, help='Path to phenotype data file')
+    parser.add_argument('--result_txt', type=str, required=True, help='Path to save text results')
+    parser.add_argument('--result_pdf', type=str, required=True, help='Path to save PDF plots')
+    parser.add_argument('--start_col', type=int, default=1, help='Starting phenotype column index (1-based)')
+    parser.add_argument('--end_col', type=int, required=True, help='Ending phenotype column index (1-based)')
+    
+    args = parser.parse_args()
+    
+    global device
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
     
-    snp_path = r"D:\doc\SNPWeightNet\01data\Expression\20DPA_eQTL_PCG.tsv"
-    pheno_path = r"D:\doc\SNPWeightNet\01data\T_20DPA.tsv"
-    result_txt_path = r"D:\doc\SNPWeightNet\03result\expression_20dpa\result.txt"
-    result_pdf_path = r"D:\doc\SNPWeightNet\03result\expression_20dpa\training_metrics.pdf"
-
-    for col in range(1, 82):  # 假设处理第1到第9列表型
+    for col in range(args.start_col, args.end_col + 1):
         start_time = time.time()
-        train_model(snp_path, pheno_path, result_txt_path, result_pdf_path, col)
+        train_model(args.snp_path, args.pheno_path, args.result_txt, args.result_pdf, col)
         end_time = time.time()
-        with open(result_txt_path, 'a', encoding='utf-8') as f:
-            f.write(f"Training time for phenotype {col}: {end_time - start_time:.2f} seconds\n\n")
+        with open(args.result_txt, 'a', encoding='utf-8') as f:
+            f.write(f"Training time for phenotype column {col}: {end_time - start_time:.2f} seconds\n\n")
+
+if __name__ == "__main__":
+    main()
