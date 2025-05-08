@@ -288,7 +288,7 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
     
-    for col in range(args.start_col, args.end_col):
+    for col in range(args.start_col, args.end_col+1):
         
         # 生成带时间戳的结果文件名
         timestamp = time.strftime("%Y%m%d_%H%M%S")
