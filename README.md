@@ -7,14 +7,14 @@
 
 An attention-based neural network for predicting phenotypic traits from SNP data with interpretable weights.
 
-## 🚀 Features
+## Features
 - **Attention Mechanism**: Learns SNP importance weights 
 - **Residual Connection**: Preserves original SNP information
 - **Mixed Precision Training**: Supports FP16/FP32 via `autocast` 
 - **Early Stopping**: Prevents overfitting with configurable patience
 - **Visualization**: Automatic plotting of training metrics
 
-## 🛠️ Installation
+## Installation
 We provided a pre-packaged Conda environment for directly running SNPWeightNet.
 
 ```bash
@@ -72,4 +72,23 @@ python predict.py --model_path path_to_trained_model.pth  --snp_path path_to_you
 - `att_weights_col_X_[phenotype_name].csv`: Attention weights matrix
 - `evaluation_col_X_[phenotype_name].txt`: Evaluation metrics (R² and PCC)
 
+## Hyperparameter Tuning Guide
+
+### Default Configuration
+```python
+config = {
+    'batch_size': 64,          # Number of samples per batch
+    'weights_units': (64, 32), # Architecture for attention weights network
+    'regressor_units': (64, 32), # Architecture for prediction network  
+    'dropout': 0.3,           # Dropout rate for regularization
+    'lr': 1e-3,               # Learning rate
+    'grad_accum': 8,          # Gradient accumulation steps
+    'epochs': 500,            # Maximum training epochs
+    'precision': 'mixed',     # Training precision (mixed or full)
+    'test_size': 0.2,         # Validation set ratio
+    'random_state': 42,       # Random seed for reproducibility
+    'patience': 50,           # Early stopping patience (epochs)
+    'delta': 0.001,           # Minimum improvement threshold
+    'weight_decay': 0.1,      # L2 regularization strength
+}
 
