@@ -96,14 +96,14 @@ config = {
 
 
 ### Tuning Recommendations
-### Network Architecture Recommendations
+#### 1. Network Architecture
 | Parameter | Recommended Configurations | Guidelines |
 |-----------|---------------------------|------------|
-| `weights_units` | • Single layer: (64-256)<br>• Dual layer: (128-256, 64-128)<br>• Triple layer: (256, 128, 64)<br>• Custom depth/sizes | - Deeper networks (3+ layers) better capture SNP interaction hierarchies <br>- For complex polygenic traits, use ≥256 neurons in first layer <br>- Evolutionary approaches suggest layer diversity improves efficiency  |
-| `regressor_units` | • (32-256) for single layer<br>• (128,64) or (256,128) for dual layer<br>• (128,64,32) for deep stacks | - Match depth to phenotype architecture (shallow for linear, deep for nonlinear traits)<br>- Chromosome 19 AD study used pyramidal (256,128,64) structure successfully  |
-| `dropout` | 0.2-0.5 (layer-specific)<br>• Input layer: 0.2-0.3<br>• Hidden layers: 0.3-0.5 | - Higher dropout (0.4-0.5) for layers >128 neurons <br>- Progressive increase from input to output layers helps regularization<br>- Critical for preventing overfitting in SNP interaction models  |
+| `weights_units` | Single layer: (64-256)<br>Dual layer: (128-256, 64-128)<br>Triple layer: (256, 128, 64)<br> Custom depth/sizes | Deeper networks (3+ layers) better capture SNP interaction hierarchies <br> For complex polygenic traits, use ≥256 neurons in first layer <br> Evolutionary approaches suggest layer diversity improves efficiency  |
+| `regressor_units` |  (32-256) for single layer<br>• (128,64) or (256,128) for dual layer<br> (128,64,32) for deep stacks | Match depth to phenotype architecture (shallow for linear, deep for nonlinear traits)<br> Chromosome 19 AD study used pyramidal (256,128,64) structure successfully  |
+| `dropout` | 0.2-0.5 (layer-specific)<br>• Input layer: 0.2-0.3<br>• Hidden layers: 0.3-0.5 |  Higher dropout (0.4-0.5) for layers >128 neurons <br>Progressive increase from input to output layers helps regularization<br> Critical for preventing overfitting in SNP interaction models  |
 
-#### 1. Network Architecture
+
 | Parameter | Recommended Range | Tips |
 |-----------|-------------------|------|
 | `weights_units` | (32-128, 16-64) | Deeper for complex traits |
