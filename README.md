@@ -16,8 +16,12 @@ An attention-based neural network for predicting phenotypic traits from SNP data
 - **Visualization**: Automatic plotting of training metrics
 
 ## 🛠️ Installation
+We provided a pre-packaged Conda environment for directly running SNPWeightNet.
+
 ```bash
-conda create -n snpnet python=3.8
-conda activate snpnet
-pip install torch==1.12.1+cu113 --extra-index-url https://download.pytorch.org/whl/cu113
-pip install pandas matplotlib scikit-learn torchmetrics
+conda env create -f environment.yml
+```
+
+## Run SNPWeightNet
+We provide a step-by-step guide for running SNPWeightNet.
+
