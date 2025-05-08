@@ -92,3 +92,31 @@ config = {
     'weight_decay': 0.1,      # L2 regularization strength
 }
 
+
+
+
+### Tuning Recommendations
+
+#### 1. Network Architecture
+| Parameter | Recommended Range | Tips |
+|-----------|-------------------|------|
+| `weights_units` | (32-128, 16-64) | Deeper for complex traits |
+| `regressor_units` | (32-128, 16-64) | Match to phenotype complexity |
+| `dropout` | 0.2-0.5 | Increase if overfitting |
+
+#### 2. Training Process
+| Parameter | Recommended Range | Effect |
+|-----------|-------------------|--------|
+| `batch_size` | 32-256 | Larger for stable gradients |
+| `lr` | 1e-4 to 1e-2 | Use learning rate warmup |
+| `grad_accum` | 4-16 | Simulates larger batch size |
+| `epochs` | 200-1000 | Monitor early stopping |
+
+#### 3. Regularization
+| Parameter | Adjustment Strategy |
+|-----------|----------------------|
+| `weight_decay` | Increase (0.01-0.5) to prevent overfitting |
+| `patience` | Reduce for faster convergence |
+| `delta` | 0.0001-0.01 (smaller for precise traits) |
+
+
