@@ -24,7 +24,7 @@ conda env create -f environment.yml
 ## Run SNPWeightNet
 We provide a step-by-step guide for running SNPWeightNet.
 
-### Step 2: Train model
+### Step 1: Train model
 train your own model
 
 ```bash
