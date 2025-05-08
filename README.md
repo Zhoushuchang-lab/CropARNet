@@ -3,7 +3,7 @@ a mlp with weight Modulator and Residual connetions
 # SNP Weight Network for Phenotype Prediction
 
 ![Python](https://img.shields.io/badge/Python-3.12%2B-blue)
-![PyTorch](https://img.shields.io/badge/PyTorch-2.3%2B-orange)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.7%2B-orange)
 ![CUDA](https://img.shields.io/badge/CUDA-12.8-green)
 
 An attention-based neural network for predicting phenotypic traits from SNP data with interpretable weights.
