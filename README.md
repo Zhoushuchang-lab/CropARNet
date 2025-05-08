@@ -24,14 +24,30 @@ conda env create -f environment.yml
 ## Run SNPWeightNet
 We provide a step-by-step guide for running SNPWeightNet.
 
-### step1 Train model
+### step1: Train model
 train your own model
-
-you need to provide two input files:SNP.tsv,pheno.tsv
 
 ```bash
 python train.py --snp_path path_to_your_snp.tsv --pheno_path path_to_your_pheno.tsv --result_dir path_to_save_result --start_col Starting phenotype column index(1-based) --end_col Ending phenotype column index (1-based)
 ```
+you need to provide two input files: SNP.tsv, pheno.tsv
 
+
+#### Requirements
+- **Input Files**:
+  - `SNP.tsv`: Tab-separated SNP data file
+    - First row: headers
+    - First column: sample IDs
+    - Data values: 0, 1, 2 (genotypes) or -1 (missing values)
+  
+  - `pheno.tsv`: Tab-separated phenotype data file
+    - First row: headers (phenotype names)
+    - First column: sample IDs (must match SNP file)
+    - Subsequent columns: phenotype values
+
+- **Output Directory**:
+  - Will automatically create two subdirectories:
+    - `txt_results/`: Contains model weights (`best_model.pth`) and text results
+    - `pdf_plots/`: Contains training visualization plots
 
 
