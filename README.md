@@ -50,4 +50,26 @@ you need to provide two input files: SNP.tsv, pheno.tsv
     - `txt_results/`: Contains model weights (`best_model.pth`) and text results
     - `pdf_plots/`: Contains training visualization plots
 
+#### Examples
+1. Train on single phenotype column (column 2):
+```bash
+python train.py --snp_path data/snps.tsv --pheno_path data/phenos.tsv --result_dir results --start_col 2 --end_col 2
+```
+
+2. Train on multiple consecutive columns (columns 1-5):
+```bash
+python train.py --snp_path data/snps.tsv --pheno_path data/phenos.tsv --result_dir results --start_col 1 --end_col 5
+```
+
+### Step 2: Make Predictions (After Training)
+
+#### Command
+```bash
+python predict.py \
+    --model_path path_to_trained_model.pth \
+    --snp_path path_to_your_snp.tsv \
+    --pheno_path path_to_your_pheno.tsv \
+    --result_dir path_to_save_predictions \
+    --col Phenotype_column_index_to_predict(1-based)
+```
 
