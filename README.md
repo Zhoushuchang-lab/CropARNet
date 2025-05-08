@@ -104,12 +104,6 @@ config = {
 | `dropout` | 0.2-0.5 (layer-specific)<br> Input layer: 0.2-0.3<br>• Hidden layers: 0.3-0.5 |  Higher dropout (0.4-0.5) for layers >128 neurons <br>Progressive increase from input to output layers helps regularization<br> Critical for preventing overfitting in SNP interaction models  |
 
 
-| Parameter | Recommended Range | Tips |
-|-----------|-------------------|------|
-| `weights_units` | (32-128, 16-64) | Deeper for complex traits |
-| `regressor_units` | (32-128, 16-64) | Match to phenotype complexity |
-| `dropout` | 0.2-0.5 | Increase if overfitting |
-
 #### 2. Training Process
 | Parameter | Recommended Range | Effect |
 |-----------|-------------------|--------|
