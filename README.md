@@ -63,13 +63,13 @@ python train.py --snp_path data/snps.tsv --pheno_path data/phenos.tsv --result_d
 
 ### Step 2: Make Predictions (After Training)
 
-#### Command
 ```bash
-python predict.py \
-    --model_path path_to_trained_model.pth \
-    --snp_path path_to_your_snp.tsv \
-    --pheno_path path_to_your_pheno.tsv \
-    --result_dir path_to_save_predictions \
-    --col Phenotype_column_index_to_predict(1-based)
+python predict.py --model_path path_to_trained_model.pth  --snp_path path_to_your_snp.tsv  --pheno_path path_to_your_pheno.tsv  --result_dir path_to_save_predictions --col Phenotype_column_index_to_predict(1-based)
 ```
+
+#### Output Files
+- `predictions_col_X_[phenotype_name].csv`: Contains true values, predicted values and absolute errors
+- `att_weights_col_X_[phenotype_name].csv`: Attention weights matrix
+- `evaluation_col_X_[phenotype_name].txt`: Evaluation metrics (R² and PCC)
+
 
