@@ -1,5 +1,4 @@
-# SNPWeightNet
-a mlp with weight Modulator and Residual connetions
+
 # SNP Weight Network for Phenotype Prediction
 
 ![Python](https://img.shields.io/badge/Python-3.12%2B-blue)
@@ -24,4 +23,15 @@ conda env create -f environment.yml
 
 ## Run SNPWeightNet
 We provide a step-by-step guide for running SNPWeightNet.
+
+### step1 Train model
+train your own model
+
+you need to provide two input files:SNP.tsv,pheno.tsv
+
+```bash
+python train.py --snp_path path_to_your_snp.tsv --pheno_path path_to_your_pheno.tsv --result_dir path_to_save_result --start_col Starting phenotype column index(1-based) --end_col Ending phenotype column index (1-based)
+```
+
+
 
