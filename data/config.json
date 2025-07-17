@@ -1,0 +1,15 @@
+{
+    "batch_size": 64,
+    "weights_units": [64, 32],
+    "regressor_units": [64, 32],
+    "dropout": 0.3,
+    "lr": 0.001,
+    "grad_accum": 8,
+    "epochs": 500,
+    "precision": "mixed",
+    "test_size": 0.2,
+    "random_state": 42,
+    "patience": 50,
+    "delta": 0.001,
+    "weight_decay": 0.1
+}
